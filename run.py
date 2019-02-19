@@ -10,7 +10,6 @@ def home():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-        print(request.form['password'])
         username = request.form['username']
         session['username'] = username
         with sqlite3.connect('database.db') as conn:
@@ -27,13 +26,15 @@ def home():
 
 @app.route('/logout')
 def logout():
-    print(session['username'])
     session.pop('username',None)
     return redirect(url_for('home'))
 
 @app.route('/home',methods = ['GET'])
 def home_page():
-    return render_template('home_page.html', username=session['username'])
+    if session:
+        return render_template('home_page.html', username=session['username'])
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/signup', methods=['GET','POST'])
