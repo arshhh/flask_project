@@ -1,9 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 import sqlite3
-
-
-app = Flask(__name__)
-app.secret_key = 'abcdef'
+from app import app
 
 @app.route('/', methods=['GET','POST'])
 def home():
@@ -55,7 +52,3 @@ def signup():
         return redirect(url_for('home'))
     if request.method == 'GET':
         return render_template('signup.html')
-
-
-if __name__ == '__main__':
-    app.run(debug = True, port=5001)
